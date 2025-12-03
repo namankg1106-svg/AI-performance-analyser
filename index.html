@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Performance Analyzer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>AI Performance Analyzer</h1>
+
+    <div class="card">
+        <h3>CPU Usage</h3>
+        <div class="progress"><div id="cpuBar"></div></div>
+        <p id="cpuText">--%</p>
+    </div>
+
+    <div class="card">
+        <h3>Memory Usage</h3>
+        <div class="progress"><div id="ramBar"></div></div>
+        <p id="ramText">--%</p>
+    </div>
+
+    <div class="card">
+        <h3>GPU Usage</h3>
+        <div class="progress"><div id="gpuBar"></div></div>
+        <p id="gpuText">--%</p>
+    </div>
+
+    <canvas id="chart" height="120"></canvas>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
