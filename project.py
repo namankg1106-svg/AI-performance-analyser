@@ -1,159 +1,159 @@
-# import psutil
-# import time
-# import datetime
+import psutil
+import time
+import datetime
 
-# def monitor_resources(interval=1):
-#     print("=== Resource Usage Monitor Started ===")
-#     while True:
-#         # CPU usage
-#         cpu_usage = psutil.cpu_percent(interval=0.5)
+def monitor_resources(interval=1):
+    print("=== Resource Usage Monitor Started ===")
+    while True:
+        # CPU usage
+        cpu_usage = psutil.cpu_percent(interval=0.5)
 
-#         # RAM usage
-#         ram = psutil.virtual_memory()
-#         ram_usage = ram.percent
-#         ram_used = round(ram.used / (1024 ** 3), 2)
-#         ram_total = round(ram.total / (1024 ** 3), 2)
+        # RAM usage
+        ram = psutil.virtual_memory()
+        ram_usage = ram.percent
+        ram_used = round(ram.used / (1024 ** 3), 2)
+        ram_total = round(ram.total / (1024 ** 3), 2)
 
-#         # Battery / Power usage
-#         battery = psutil.sensors_battery()
-#         if battery:
-#             power_percent = battery.percent
-#             power_plugged = battery.power_plugged
-#         else:
-#             power_percent = None
-#             power_plugged = None
+        # Battery / Power usage
+        battery = psutil.sensors_battery()
+        if battery:
+            power_percent = battery.percent
+            power_plugged = battery.power_plugged
+        else:
+            power_percent = None
+            power_plugged = None
 
-#         # Display results
-#         print("\nTime:", datetime.datetime.now().strftime("%H:%M:%S"))
-#         print(f"CPU Usage: {cpu_usage}%")
-#         print(f"RAM Usage: {ram_usage}% ({ram_used} GB / {ram_total} GB)")
+        # Display results
+        print("\nTime:", datetime.datetime.now().strftime("%H:%M:%S"))
+        print(f"CPU Usage: {cpu_usage}%")
+        print(f"RAM Usage: {ram_usage}% ({ram_used} GB / {ram_total} GB)")
         
-#         if battery:
-#             print(f"Battery: {power_percent}%")
-#             print("Charging: Yes" if power_plugged else "Charging: No")
-#         else:
-#             print("Battery info not available.")
+        if battery:
+            print(f"Battery: {power_percent}%")
+            print("Charging: Yes" if power_plugged else "Charging: No")
+        else:
+            print("Battery info not available.")
 
-#         time.sleep(interval)
-
-
-# # Optional: Test batch inference performance
-# def batch_inference_test(batch_size=1000000):
-#     print("\nRunning batch performance test...")
-#     start = time.time()
-
-#     # Dummy heavy operation
-#     result = sum(range(batch_size))
-
-#     end = time.time()
-#     print(f"Batch Size: {batch_size}")
-#     print(f"Time Taken: {round(end - start, 4)} seconds")
+        time.sleep(interval)
 
 
-# # Run the monitor
-# if __name__ == "__main__":
-#     # Uncomment this to test batch performance
-#     # batch_inference_test(5000000)
+# Optional: Test batch inference performance
+def batch_inference_test(batch_size=1000000):
+    print("\nRunning batch performance test...")
+    start = time.time()
 
-#     monitor_resources(interval=2)  # update every 2 seconds
+    # Dummy heavy operation
+    result = sum(range(batch_size))
+
+    end = time.time()
+    print(f"Batch Size: {batch_size}")
+    print(f"Time Taken: {round(end - start, 4)} seconds")
 
 
+# Run the monitor
+if __name__ == "__main__":
+    # Uncomment this to test batch performance
+    # batch_inference_test(5000000)
+
+    monitor_resources(interval=2)  # update every 2 seconds
 
 
 
-# import tkinter as tk
-# from tkinter import ttk
-# import psutil
-# import matplotlib.pyplot as plt
-# from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-# import matplotlib.animation as animation
 
-# # ----------------------- Data Lists -------------------------
-# cpu_data = []
-# ram_data = []
-# time_data = []
 
-# # ----------------------- Update Function --------------------
-# def update_stats(i):
-#     cpu = psutil.cpu_percent()
-#     ram = psutil.virtual_memory().percent
+import tkinter as tk
+from tkinter import ttk
+import psutil
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.animation as animation
 
-#     cpu_data.append(cpu)
-#     ram_data.append(ram)
-#     time_data.append(len(cpu_data))
+# ----------------------- Data Lists -------------------------
+cpu_data = []
+ram_data = []
+time_data = []
 
-#     if len(cpu_data) > 50:  # limit graph length
-#         cpu_data.pop(0)
-#         ram_data.pop(0)
-#         time_data.pop(0)
+# ----------------------- Update Function --------------------
+def update_stats(i):
+    cpu = psutil.cpu_percent()
+    ram = psutil.virtual_memory().percent
 
-#     # Update plots
-#     cpu_line.set_data(time_data, cpu_data)
-#     ram_line.set_data(time_data, ram_data)
+    cpu_data.append(cpu)
+    ram_data.append(ram)
+    time_data.append(len(cpu_data))
 
-#     ax1.relim()
-#     ax1.autoscale_view()
-#     ax2.relim()
-#     ax2.autoscale_view()
+    if len(cpu_data) > 50:  # limit graph length
+        cpu_data.pop(0)
+        ram_data.pop(0)
+        time_data.pop(0)
 
-#     # Update labels
-#     cpu_label.config(text=f"CPU Usage: {cpu}%")
-#     ram_label.config(text=f"RAM Usage: {ram}%")
+    # Update plots
+    cpu_line.set_data(time_data, cpu_data)
+    ram_line.set_data(time_data, ram_data)
 
-#     batt = psutil.sensors_battery()
-#     if batt:
-#         battery_label.config(text=f"Battery: {batt.percent}% — {'Charging' if batt.power_plugged else 'Not Charging'}")
-#     else:
-#         battery_label.config(text="Battery Info Not Available")
+    ax1.relim()
+    ax1.autoscale_view()
+    ax2.relim()
+    ax2.autoscale_view()
 
-# # ----------------------- UI Setup ---------------------------
-# root = tk.Tk()
-# root.title("💻 Real-Time System Resource Monitor")
-# root.geometry("950x600")
-# root.configure(bg="#1e1e1e")
+    # Update labels
+    cpu_label.config(text=f"CPU Usage: {cpu}%")
+    ram_label.config(text=f"RAM Usage: {ram}%")
 
-# title = tk.Label(root, text="📊 System Resource Monitor", font=("Segoe UI", 20, "bold"), bg="#1e1e1e", fg="white")
-# title.pack(pady=10)
+    batt = psutil.sensors_battery()
+    if batt:
+        battery_label.config(text=f"Battery: {batt.percent}% — {'Charging' if batt.power_plugged else 'Not Charging'}")
+    else:
+        battery_label.config(text="Battery Info Not Available")
 
-# # ----- Labels -----
-# frame = tk.Frame(root, bg="#1e1e1e")
-# frame.pack()
+# ----------------------- UI Setup ---------------------------
+root = tk.Tk()
+root.title("💻 Real-Time System Resource Monitor")
+root.geometry("950x600")
+root.configure(bg="#1e1e1e")
 
-# cpu_label = tk.Label(frame, text="CPU Usage: 0%", font=("Segoe UI", 14), bg="#1e1e1e", fg="cyan")
-# cpu_label.grid(row=0, column=0, padx=20, pady=10)
+title = tk.Label(root, text="📊 System Resource Monitor", font=("Segoe UI", 20, "bold"), bg="#1e1e1e", fg="white")
+title.pack(pady=10)
 
-# ram_label = tk.Label(frame, text="RAM Usage: 0%", font=("Segoe UI", 14), bg="#1e1e1e", fg="orange")
-# ram_label.grid(row=0, column=1, padx=20, pady=10)
+# ----- Labels -----
+frame = tk.Frame(root, bg="#1e1e1e")
+frame.pack()
 
-# battery_label = tk.Label(frame, text="Battery: Loading...", font=("Segoe UI", 14), bg="#1e1e1e", fg="lightgreen")
-# battery_label.grid(row=0, column=2, padx=20, pady=10)
+cpu_label = tk.Label(frame, text="CPU Usage: 0%", font=("Segoe UI", 14), bg="#1e1e1e", fg="cyan")
+cpu_label.grid(row=0, column=0, padx=20, pady=10)
 
-# # ------------------- Matplotlib Graph -----------------------
-# fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 6))
-# fig.patch.set_facecolor("#1e1e1e")
+ram_label = tk.Label(frame, text="RAM Usage: 0%", font=("Segoe UI", 14), bg="#1e1e1e", fg="orange")
+ram_label.grid(row=0, column=1, padx=20, pady=10)
 
-# # Line placeholders
-# cpu_line, = ax1.plot([], [], linewidth=2)
-# ram_line, = ax2.plot([], [], linewidth=2)
+battery_label = tk.Label(frame, text="Battery: Loading...", font=("Segoe UI", 14), bg="#1e1e1e", fg="lightgreen")
+battery_label.grid(row=0, column=2, padx=20, pady=10)
 
-# # Graph styles
-# ax1.set_title("CPU Usage %", color="cyan")
-# ax2.set_title("RAM Usage %", color="orange")
+# ------------------- Matplotlib Graph -----------------------
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 6))
+fig.patch.set_facecolor("#1e1e1e")
 
-# for ax in (ax1, ax2):
-#     ax.set_facecolor("#2d2d2d")
-#     ax.tick_params(colors="white")
-#     ax.spines['bottom'].set_color('white')
-#     ax.spines['top'].set_color('white')
-#     ax.spines['left'].set_color('white')
-#     ax.spines['right'].set_color('white')
+# Line placeholders
+cpu_line, = ax1.plot([], [], linewidth=2)
+ram_line, = ax2.plot([], [], linewidth=2)
 
-# canvas = FigureCanvasTkAgg(fig, master=root)
-# canvas.get_tk_widget().pack()
+# Graph styles
+ax1.set_title("CPU Usage %", color="cyan")
+ax2.set_title("RAM Usage %", color="orange")
 
-# ani = animation.FuncAnimation(fig, update_stats, interval=1000)
+for ax in (ax1, ax2):
+    ax.set_facecolor("#2d2d2d")
+    ax.tick_params(colors="white")
+    ax.spines['bottom'].set_color('white')
+    ax.spines['top'].set_color('white')
+    ax.spines['left'].set_color('white')
+    ax.spines['right'].set_color('white')
 
-# root.mainloop()
+canvas = FigureCanvasTkAgg(fig, master=root)
+canvas.get_tk_widget().pack()
+
+ani = animation.FuncAnimation(fig, update_stats, interval=1000)
+
+root.mainloop()
 
 
 
@@ -571,3 +571,4 @@ def on_close():
 
 root.protocol("WM_DELETE_WINDOW", on_close)
 root.mainloop()
+
